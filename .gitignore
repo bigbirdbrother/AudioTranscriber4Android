@@ -1,0 +1,56 @@
+# Android 编译输出
+/build/
+**/build/
+.cxx/
+.externalNativeBuild/
+
+# 本地配置
+local.properties
+/local.properties
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+
+# 可忽略的 .idea 子目录和文件（更细致控制）
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# Gradle 缓存
+.gradle/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+
+# Kotlin 编译缓存
+/.kotlin/
+
+# APK 及构建产物
+*.apk
+*.ap_
+captures/
+output/
+
+# NDK 相关
+obj/
+
+# Emulator 相关
+*.hprof
+
+# 证书或密钥（根据项目需要可改名）
+*.keystore
+
+# VS Code（如你使用它）
+.vscode/
