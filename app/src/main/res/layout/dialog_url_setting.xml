@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="http://192.168.1.8:8484/recognize"
+        android:text="http://192.168.1.8:8484/recognize"
         android:inputType="textUri|textNoSuggestions"
         android:importantForAutofill="no"
         android:autofillHints="none"
@@ -29,7 +30,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="示例：http://192.168.1.100:5000/recognize"
+        android:text="示例：http://192.168.1.100:8484/recognize"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="?android:attr/textColorSecondary"
         android:paddingTop="8dp"/>

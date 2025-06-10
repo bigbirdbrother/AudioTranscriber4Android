@@ -391,4 +391,17 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_PERMISSIONS = 2
     }
+
+    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val latest = sharedPref.getBoolean("enable_file_upload", false)
+
+        if (latest != isFileUploadMode) {
+            isFileUploadMode = latest
+            updateRecordButtonBehavior()
+        }
+    }
+
 }
