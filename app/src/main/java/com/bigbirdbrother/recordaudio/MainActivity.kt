@@ -5,14 +5,17 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -25,13 +28,14 @@ import androidx.room.Room.databaseBuilder
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 
 class MainActivity : AppCompatActivity() {
-    private var btnRecord: Button? = null
+    private var btn_record: Button? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: ChatAdapter? = null
     private val messages: MutableList<Message> = ArrayList<Message>()
@@ -44,6 +48,10 @@ class MainActivity : AppCompatActivity() {
     private var navigationView: NavigationView? = null
     private var toolbar: MaterialToolbar? = null
     private var statusBarBackground: View? = null
+
+    private var isFileUploadMode = false
+//    private lateinit var outputDir: File
+    private val FILE_PICK_REQUEST_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         setStatusBarHeight();
 
         // 设置工具栏
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
         toolbar?.setNavigationOnClickListener { v -> drawerLayout?.openDrawer(GravityCompat.END) }
 
 
@@ -119,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // 初始化UI
-        btnRecord = findViewById<Button>(R.id.btnRecord)
+        btn_record = findViewById<Button>(R.id.btn_record)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
         adapter = ChatAdapter(messages)
@@ -131,13 +139,110 @@ class MainActivity : AppCompatActivity() {
         outputDir = File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "recordings")
         if (!outputDir!!.exists()) outputDir!!.mkdirs()
 
+
         audioRecorder = AudioRecorder()
 
 
         // 加载历史消息
         loadHistoryMessages()
 
-        btnRecord?.setOnClickListener(View.OnClickListener { v: View? -> toggleRecording() })
+        // 监听设置变化
+        setupPreferenceListener()
+//        btnRecord?.setOnClickListener(View.OnClickListener { v: View? -> toggleRecording() })
+
+    }
+
+    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
+    private fun setupPreferenceListener() {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        sharedPref.registerOnSharedPreferenceChangeListener { _, key ->
+            when (key) {
+                "enable_file_upload" -> {
+                    isFileUploadMode = sharedPref.getBoolean(key, false)
+                    updateRecordButtonBehavior()
+                }
+            }
+        }
+
+        // 初始化状态
+        isFileUploadMode = sharedPref.getBoolean("enable_file_upload", false)
+        updateRecordButtonBehavior()
+    }
+
+    @RequiresPermission(Manifest.permission.RECORD_AUDIO)
+    private fun updateRecordButtonBehavior() {
+        val recordButton: Button = findViewById(R.id.btn_record)
+
+        if (isFileUploadMode) {
+            recordButton.text = "上传录音文件"
+            recordButton.setOnClickListener {
+                openFilePicker()
+            }
+        } else {
+            recordButton.text = "开始录音"
+            recordButton.setOnClickListener {
+                    v: View? -> toggleRecording()
+            }
+        }
+    }
+
+    private fun openFilePicker() {
+        // 创建文件选择 Intent
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "audio/*"  // 只显示音频文件
+            putExtra(Intent.EXTRA_LOCAL_ONLY, true)  // 只允许本地文件
+
+            // 设置初始目录
+            putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.fromFile(outputDir))
+        }
+
+        startActivityForResult(intent, FILE_PICK_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == FILE_PICK_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                // 获取选择的文件
+                val file = uriToFile(uri)
+                val recordingMsg: Message = Message()
+                recordingMsg.content = "[录音文件]"
+                recordingMsg.isUser = true
+                recordingMsg.timestamp = System.currentTimeMillis()
+                addMessage(recordingMsg)
+                if (file != null) {
+                    // 发送到服务器
+                    sendToServer(file)
+                } else {
+                    Toast.makeText(this, "无法读取文件", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun uriToFile(uri: Uri): File? {
+        return try {
+            // 检查是否是 content URI
+            if (uri.scheme == "content") {
+                // 使用 ContentResolver 读取文件
+                contentResolver.openInputStream(uri)?.use { inputStream ->
+                    // 创建临时文件
+                    val file = File.createTempFile("upload_", ".wav", cacheDir)
+                    FileOutputStream(file).use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                    file
+                }
+            } else {
+                // 直接处理 file URI
+                File(uri.path ?: return null)
+            }
+        } catch (e: Exception) {
+            Log.e("FilePicker", "Error converting URI to file", e)
+            null
+        }
     }
 
     // 关键方法：设置状态栏占位高度
@@ -170,7 +275,7 @@ class MainActivity : AppCompatActivity() {
     }
     @RequiresPermission(Manifest.permission.RECORD_AUDIO)
     private fun toggleRecording() {
-        if (btnRecord!!.text == "录音") {
+        if (btn_record!!.text == "开始录音") {
             startRecording()
         } else {
             stopRecording()
@@ -181,7 +286,7 @@ class MainActivity : AppCompatActivity() {
     private fun startRecording() {
         try {
             audioRecorder?.startRecording(outputDir)
-            btnRecord!!.text = "停止录音"
+            btn_record!!.text = "停止录音"
         } catch (e: IOException) {
             e.printStackTrace()
             addSystemMessage("录音启动失败: " + e.message)
@@ -190,7 +295,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopRecording() {
         val audioFile: File? = audioRecorder?.stopRecording()
-        btnRecord!!.text = "录音"
+        btn_record!!.text = "开始录音"
 
 
         // 添加用户录音消息

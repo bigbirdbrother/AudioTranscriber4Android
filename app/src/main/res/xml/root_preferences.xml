@@ -6,4 +6,10 @@
         app:summary="点击设置服务器URL"
         app:layout="@layout/custom_preference"
         app:icon="@drawable/ic_server_url" />
+    <SwitchPreferenceCompat
+        app:key="enable_file_upload"
+        app:title="启用文件上传而不是录音"
+        app:summary="开启后，将使用文件上传功能"
+        app:icon="@drawable/ic_switch"
+        app:defaultValue="false" />
 </PreferenceScreen>
