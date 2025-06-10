@@ -12,7 +12,6 @@ import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-
 object NetworkUtils {
 
     interface TranscriptionCallback {
@@ -31,7 +30,6 @@ object NetworkUtils {
             )
             .build()
 
-
         val request = Request.Builder()
             .url(serverUrl)
             .post(requestBody)
@@ -39,22 +37,39 @@ object NetworkUtils {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                callback.onError(e.message)
+                callback.onError("网络错误: ${e.message}")
             }
 
-            @Throws(IOException::class)
             override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    // 解析JSON响应
-                    val responseBody = response.body!!.string()
+                try {
+                    val responseBody = response.body?.string()
+
+                    if (responseBody.isNullOrEmpty()) {
+                        callback.onError("空响应")
+                        return
+                    }
+
                     val json = JSONObject(responseBody)
-                    val result = json.getString("result") // 获取result字段
-                    callback.onSuccess(result)
-                } else {
-                    callback.onError("Server error: " + response.code)
+
+                    // 如果服务器返回了 error 字段
+                    if (json.has("error")) {
+                        val errorMsg = json.getString("error")
+                        callback.onError("服务器错误: $errorMsg")
+                        return
+                    }
+
+                    val result = json.optString("result", null)
+
+                    if (result == null) {
+                        callback.onError("响应中缺少 result 字段")
+                    } else {
+                        callback.onSuccess(result)
+                    }
+
+                } catch (e: Exception) {
+                    callback.onError("解析响应失败: ${e.message}")
                 }
             }
         })
     }
-
 }
