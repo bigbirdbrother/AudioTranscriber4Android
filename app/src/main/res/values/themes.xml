@@ -3,6 +3,10 @@
 
 <!--    <style name="Theme.AudioTranscriber4Android" parent="Theme.AppCompat.Light.NoActionBar">-->
     <style name="Theme.AudioTranscriber4Android" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- 添加以下状态栏设置 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- 禁用系统自带 ActionBar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

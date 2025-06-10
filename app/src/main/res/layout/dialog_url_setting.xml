@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请输入语音识别服务地址："
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:paddingBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/et_server_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="http://192.168.1.8:8484/recognize"
+        android:inputType="textUri"
+        android:importantForAutofill="no"
+        android:autofillHints="none"/>
+</LinearLayout>

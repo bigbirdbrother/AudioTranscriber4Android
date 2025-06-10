@@ -4,17 +4,21 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room.databaseBuilder
@@ -39,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private var drawerLayout: DrawerLayout? = null
     private var navigationView: NavigationView? = null
     private var toolbar: MaterialToolbar? = null
+    private var statusBarBackground: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +77,23 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        // 设置状态栏透明
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = Color.TRANSPARENT
+            window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        }
+
         // 初始化视图
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
         toolbar = findViewById(R.id.toolbar)
+        statusBarBackground = findViewById(R.id.status_bar_background);
 
+        // 设置状态栏占位高度
+        setStatusBarHeight();
 
         // 设置工具栏
         setSupportActionBar(toolbar)
@@ -123,6 +140,34 @@ class MainActivity : AppCompatActivity() {
         btnRecord?.setOnClickListener(View.OnClickListener { v: View? -> toggleRecording() })
     }
 
+    // 关键方法：设置状态栏占位高度
+    private fun setStatusBarHeight() {
+        // 获取状态栏高度
+        val statusBarHeight = getStatusBarHeight()
+
+
+        // 设置占位View的高度
+        val params: ViewGroup.LayoutParams = statusBarBackground!!.layoutParams
+        params.height = statusBarHeight
+        statusBarBackground!!.layoutParams = params
+    }
+
+    // 获取状态栏高度
+    private fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
+    }
+    override fun onBackPressed() {
+        if (drawerLayout!!.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout!!.closeDrawer(GravityCompat.END)
+        } else {
+            super.onBackPressed()
+        }
+    }
     @RequiresPermission(Manifest.permission.RECORD_AUDIO)
     private fun toggleRecording() {
         if (btnRecord!!.text == "录音") {
@@ -163,9 +208,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendToServer(audioFile: File) {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val serverUrl = sharedPref.getString("server_url", "http://192.168.1.8:8484/recognize") ?: "http://192.168.1.8:8484/recognize"
         NetworkUtils.sendAudioToServer(
             audioFile,
-            "http://192.168.1.8:8484/recognize",
+            serverUrl,
             object : NetworkUtils.TranscriptionCallback {
                 override fun onSuccess(result: String?) {
                     // 添加系统回复

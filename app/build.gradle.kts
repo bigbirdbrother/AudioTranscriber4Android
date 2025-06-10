@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.preference)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,6 +68,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
+//    implementation("androidx.preference:preference-ktx:1.2.1")
     kapt("androidx.room:room-compiler:2.6.1")
     // 添加JSON解析支持
     implementation("org.json:json:20231013")

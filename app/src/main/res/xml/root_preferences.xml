@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:key="server_url"
+        app:title="配置audio-transcriber服务地址"
+        app:summary="点击设置服务器地址" />
+</PreferenceScreen>

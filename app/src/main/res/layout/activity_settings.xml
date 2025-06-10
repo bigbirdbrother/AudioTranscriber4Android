@@ -10,14 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+
         app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/settings_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="配置页面（待实现）"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="16dp"/>
+        android:layout_height="match_parent"/>
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="配置页面（待实现）"-->
+<!--        android:textSize="18sp"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="16dp"/>-->
 </LinearLayout>
