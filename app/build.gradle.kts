@@ -66,6 +66,7 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
     kapt("androidx.room:room-compiler:2.6.1")
     // 添加JSON解析支持
     implementation("org.json:json:20231013")

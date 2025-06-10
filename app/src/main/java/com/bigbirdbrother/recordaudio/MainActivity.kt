@@ -2,6 +2,7 @@ package com.bigbirdbrother.recordaudio
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,13 +13,18 @@ import android.widget.Button
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room.databaseBuilder
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.navigation.NavigationView
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+
 
 class MainActivity : AppCompatActivity() {
     private var btnRecord: Button? = null
@@ -30,18 +36,13 @@ class MainActivity : AppCompatActivity() {
     private val executor: Executor = Executors.newSingleThreadExecutor()
     private var db: AppDatabase? = null
 
+    private var drawerLayout: DrawerLayout? = null
+    private var navigationView: NavigationView? = null
+    private var toolbar: MaterialToolbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // 检查权限
-//        if (!checkPermissions()) {
-//            ActivityCompat.requestPermissions(
-//                this, arrayOf(
-//                    Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                ), REQUEST_PERMISSIONS
-//            )
-//        }
 
         try {
             // 确保上下文是 Activity
@@ -50,10 +51,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-// 打印权限数组，确认无误
-//            var permissions = arrayOf(
-//                Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            )
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val permissions = mutableListOf<String>()
 
@@ -68,17 +66,33 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-//            if (!checkPermissions()) {
-//                ActivityCompat.requestPermissions(
-//                    this,permissions , REQUEST_PERMISSIONS
-//                )
-//            }
         } catch (e: Exception) {
             e.printStackTrace()
             // 这里可以弹个提示，或者做其他逻辑处理
         }
 
 
+        // 初始化视图
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.navigation_view)
+        toolbar = findViewById(R.id.toolbar)
+
+
+        // 设置工具栏
+        setSupportActionBar(toolbar)
+        toolbar?.setNavigationOnClickListener { v -> drawerLayout?.openDrawer(GravityCompat.END) }
+
+
+        // 设置菜单项点击事件
+        navigationView?.setNavigationItemSelectedListener { item ->
+            if (item.getItemId() === R.id.menu_settings) {
+                // 打开设置页面
+                startActivity(Intent(this, SettingsActivity::class.java))
+                drawerLayout?.closeDrawer(GravityCompat.END)
+                return@setNavigationItemSelectedListener true
+            }
+            false
+        }
 
 
         // 初始化数据库
