@@ -5,6 +5,10 @@
         android:title="复制"
         android:icon="@drawable/content_copy_24px"/>
     <item
+        android:id="@+id/menu_select_copy"
+        android:title="选中复制"
+        android:icon="@android:drawable/ic_menu_edit"/>
+    <item
         android:id="@+id/menu_share"
         android:title="分享"
         android:icon="@drawable/open_in_new_24px"/>

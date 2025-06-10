@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/fullscreen_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/black"
+        android:textIsSelectable="true"
+        android:selectAllOnFocus="true"
+        android:textSize="24sp"
+        android:lineSpacingExtra="8dp"
+        android:gravity="start"
+        android:scrollbars="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
+    <View
+        android:id="@+id/selection_start_handle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/selection_handle_start"
+        android:visibility="invisible"/>
+
+    <View
+        android:id="@+id/selection_end_handle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/selection_handle_end"
+        android:visibility="invisible"/>
+
+</RelativeLayout>
