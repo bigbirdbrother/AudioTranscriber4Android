@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.AudioTranscriber4Android" parent="Theme.AppCompat.Light.NoActionBar">
+<!--    <style name="Theme.AudioTranscriber4Android" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <style name="Theme.AudioTranscriber4Android" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- 禁用系统自带 ActionBar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- 可选：定义颜色 -->
+        <item name="colorPrimary">@color/green_blue</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@android:color/white</item>
     </style>
 
 </resources>

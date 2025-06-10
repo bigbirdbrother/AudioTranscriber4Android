@@ -10,4 +10,5 @@
     <color name="blue">#FF0080FF</color>
     <color name="white">#FFFFFFFF</color>
     <color name="selection_highlight">#80ADD8E6</color>
+    <color name="green_blue">#FF3BA08D</color>
 </resources>
