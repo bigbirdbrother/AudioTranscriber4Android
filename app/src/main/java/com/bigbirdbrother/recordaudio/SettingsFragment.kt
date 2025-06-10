@@ -16,6 +16,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             showUrlSettingDialog()
             true
         }
+
+        // 初始化摘要
+        updateSummary()
     }
 
     private fun showUrlSettingDialog() {
@@ -27,12 +30,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         etUrl.setText(currentUrl)
 
         AlertDialog.Builder(requireContext())
-            .setTitle("配置服务地址")
+            .setTitle("配置语音识别服务地址")
             .setView(dialogView)
             .setPositiveButton("保存") { _, _ ->
-                val newUrl = etUrl.text.toString().trim()
-                sharedPrefs?.edit { putString("server_url", newUrl) }
-                updateSummary(newUrl)
+//                val newUrl = etUrl.text.toString().trim()
+//                sharedPrefs?.edit { putString("server_url", newUrl) }
+//                updateSummary(newUrl)
+                updateSummary()
             }
             .setNegativeButton("取消", null)
             .show()
@@ -45,7 +49,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onResume() {
         super.onResume()
+        updateSummary()
+    }
+
+    private fun updateSummary() {
         val url = preferenceManager.sharedPreferences?.getString("server_url", "") ?: ""
-        updateSummary(url)
+        findPreference<Preference>("server_url")?.summary =
+            if (url.isNotEmpty()) url else "未配置（使用默认地址）"
     }
 }

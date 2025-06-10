@@ -2,6 +2,8 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <Preference
         app:key="server_url"
-        app:title="配置audio-transcriber服务地址"
-        app:summary="点击设置服务器地址" />
+        app:title="语音识别服务地址"
+        app:summary="点击设置服务器URL"
+        app:layout="@layout/custom_preference"
+        app:icon="@drawable/ic_server_url" />
 </PreferenceScreen>
