@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_delete"
+        android:title="删除"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_mark"
+        android:title="标记"
+        android:icon="@drawable/ic_bookmark_border"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_unmark"
+        android:title="取消标记"
+        android:icon="@drawable/ic_bookmark_unborder"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/select_all"
+        android:title="全选"
+        android:icon="@drawable/ic_select_all"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_count"
+        android:title="0 已选"
+        app:showAsAction="always"/>
+</menu>

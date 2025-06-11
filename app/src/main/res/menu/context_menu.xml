@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/menu_copy"
         android:title="复制"
@@ -12,4 +13,25 @@
         android:id="@+id/menu_share"
         android:title="分享"
         android:icon="@drawable/open_in_new_24px"/>
+    <item
+        android:id="@+id/menu_multi_select"
+        android:title="多选"
+        android:icon="@drawable/ic_select_all"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_mark"
+        android:title="标记"
+        android:icon="@drawable/ic_bookmark_border"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_unmark"
+        android:title="取消标记"
+        android:icon="@drawable/ic_bookmark_unborder"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_delete"
+        android:title="删除"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="never"/>
+
 </menu>

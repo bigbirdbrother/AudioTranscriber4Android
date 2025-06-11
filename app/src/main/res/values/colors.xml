@@ -11,4 +11,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="selection_highlight">#80ADD8E6</color>
     <color name="green_blue">#FF3BA08D</color>
+    <color name="orange">#FFFF7F27</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="system">#E0E0E0</color>
+    <color name="user">#2196F3</color>
+    <color name="high_light">#7092BE</color>
+    <color name="high_light2">#8080ff</color>
 </resources>
