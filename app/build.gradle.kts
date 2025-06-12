@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+import java.util.Date
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -37,6 +39,21 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+
+    // AGP 8.0+ 兼容的APK文件名修改配置
+    applicationVariants.configureEach {
+        val variant = this
+        val appName = "Audio Transcriber" // 自定义应用名称
+        val buildType = variant.buildType.name
+        val versionName = variant.versionName
+        val versionCode = variant.versionCode
+        val date = SimpleDateFormat("yyyyMMdd").format(Date())
+
+        outputs.configureEach {
+            val output = this as com.android.build.gradle.api.ApkVariantOutput
+            output.outputFileName = "${appName}_v${versionName}_${buildType}_${date}.apk"
+        }
     }
 }
 

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 标题 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp"
+            android:text="语音转文字应用使用教程"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textIsSelectable="true"
+            android:textStyle="bold" />
+
+        <!-- 前置工作 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:text="前置工作："
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <!---->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0. 在pc或nas上构建和部署audio-transcriber服务。推荐使用docker构建部署\n参考:\nhttps://github.com/bigbirdbrother/audio-transcriber"
+            android:autoLink="web"
+            android:textIsSelectable="true" />
+
+
+        <!-- 第一步 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:text="第一步：配置服务地址"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="1. 打开右侧菜单（从屏幕右侧向左滑动或点击右上角菜单图标）" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="2. 选择&quot;设置&quot;选项" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="3. 在设置页面中，找到&quot;服务地址&quot;输入框" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="4. 输入您的部署好的audio-Transcriber服务地址（格式如：http://your-server.com:5000/recognize）" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="5. 点击&quot;保存&quot;按钮完成配置" />
+
+        <!-- 第二步 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:paddingTop="16dp"
+            android:paddingBottom="4dp"
+            android:text="第二步：测试录音功能"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="1. 返回主界面" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="2. 确保底部标签栏选中的是&quot;录音&quot;选项" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="3. 按住中央的麦克风图标开始录音" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="4. 对着手机麦克风清晰地说出您想转换的语音内容" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="5. 松开麦克风图标结束录音" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="6. 应用会自动上传录音并转换文字" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textIsSelectable="true"
+            android:layout_height="wrap_content"
+            android:text="7. 转换结果将显示在屏幕中央的文本框中" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="8. 成功转换后，您会看到绿色的成功提示" />
+
+        <!-- 第三步 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:textIsSelectable="true"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="4dp"
+            android:text="第三步：使用文件转换功能"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="1. 在底部标签栏点击&quot;文件&quot;选项" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="2. 点击&quot;选择文件&quot;按钮" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="3. 从手机中选择一个音频文件（支持WAV等常见格式）" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="4. 文件上传后，应用会自动进行转换" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="5. 转换结果将显示在屏幕中央的文本框中" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="6. 您可以在历史记录中查看所有转换结果" />
+
+        <!-- 常见问题 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp"
+            android:text="常见问题解答"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q：为什么我的录音无法转换？"
+            android:textIsSelectable="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingBottom="8dp"
+            android:textIsSelectable="true"
+            android:text="A：请检查：\n- 是否已配置正确的服务地址\n- 是否授予了麦克风权限\n- 网络连接是否正常，自行查看服务日志排查" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q：文件转换支持哪些格式？"
+            android:textIsSelectable="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingBottom="8dp"
+            android:textIsSelectable="true"
+            android:text="A：目前支持MP3、WAV、M4A等常见音频格式" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Q：转换结果不准确怎么办？"
+            android:textIsSelectable="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:paddingLeft="16dp"
+            android:paddingBottom="8dp"
+            android:text="A：尝试：\n- 在安静环境下录音\n- 靠近麦克风清晰发音\n- 避免背景噪音\n- 使用标准普通话" />
+
+        <!-- 温馨提示 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:textIsSelectable="true"
+            android:paddingBottom="8dp"
+            android:text="温馨提示"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textIsSelectable="true"
+            android:layout_height="wrap_content"
+            android:text="- 为获得最佳转换效果，请在网络良好的环境下使用" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="- 长时间录音建议使用文件转换功能" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="- 重要内容请及时复制或导出保存" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            android:text="- 定期检查服务地址配置是否正确" />
+
+
+        <!-- 技术支持信息 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textIsSelectable="true"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp"
+            android:text="如需更多帮助，请联系，很可惜作者跑路了。没有技术支持的，有问题自己解决，别指望了，开源软件还要啥自行车O(∩_∩)O噗哈哈哈~" />
+    </LinearLayout>
+</ScrollView>

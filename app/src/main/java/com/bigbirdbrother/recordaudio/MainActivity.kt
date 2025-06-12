@@ -148,6 +148,11 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
                     drawerLayout?.closeDrawer(GravityCompat.END)
                     true
                 }
+                R.id.menu_tutorial -> {  // 新增教程菜单处理
+                    startActivity(Intent(this, TutorialActivity::class.java))
+                    drawerLayout?.closeDrawer(GravityCompat.END)
+                    true
+                }
                 else -> false
             }
         }

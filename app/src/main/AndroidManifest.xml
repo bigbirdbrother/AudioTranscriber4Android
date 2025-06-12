@@ -47,6 +47,14 @@
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
+        <activity
+            android:name=".TutorialActivity"
+            android:label="使用教程"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

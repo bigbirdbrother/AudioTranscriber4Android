@@ -9,4 +9,10 @@
         android:id="@+id/menu_clear_history"
         android:icon="@drawable/ic_delete"
         android:title="清空历史数据"/>
+
+    <!-- 新增使用教程菜单项 -->
+    <item
+        android:id="@+id/menu_tutorial"
+        android:icon="@drawable/ic_help"
+        android:title="使用教程"/>
 </menu>
