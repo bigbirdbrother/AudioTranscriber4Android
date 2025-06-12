@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/blue"
-            app:title="AudioTranscriber"
+            app:title="Audio Transcriber"
             app:titleTextColor="@android:color/white"
             app:navigationIcon="@drawable/ic_menu"
             app:layout_constraintTop_toBottomOf="@id/status_bar_background"
