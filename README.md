@@ -4,7 +4,7 @@
 
 ## 功能特性
 
-- 专为 NAS 而生，不能独立运, 相关项目：[audio-transcriber](https://github.com/bigbirdbrother/audio-transcriber)
+- 专为 NAS 而生，不能独立运行, 相关项目：[audio-transcriber](https://github.com/bigbirdbrother/audio-transcriber)
 - 非实时性的录音转文字
 - 本地音频文件转文字
 - 历史记录管理
