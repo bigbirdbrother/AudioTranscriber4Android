@@ -3,13 +3,10 @@ package com.bigbirdbrother.recordaudio
 import android.app.Activity
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import java.util.stream.Stream
@@ -253,17 +250,21 @@ class ChatAdapter(private val context: Context, val messages: MutableList<Messag
     }
 
     // 删除消息
-    fun deleteMessage(position: Int) {
-        messages.removeAt(position)
+    fun deleteMessageAndNotify(position: Int) {
+        deleteMessageInAdapter(position)
+
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
 
+        // 调整集合中大于删除位置的索引
+        updateCollectionsAfterDeletion(position)
+    }
+
+    fun deleteMessageInAdapter(position: Int) {
+        messages.removeAt(position)
         // 更新标记和选择集合
         markedItems.remove(position)
         selectedItems.remove(position)
-
-        // 调整集合中大于删除位置的索引
-        updateCollectionsAfterDeletion(position)
     }
 
     // 删除消息

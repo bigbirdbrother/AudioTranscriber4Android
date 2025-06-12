@@ -414,7 +414,8 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
             }
 
             R.id.menu_delete -> {
-                deleteMassageByPos(longClickedPosition)
+                deleteMessageByPos(longClickedPosition)
+                adapter?.deleteMessageAndNotify(position)
                 true
             }
 
@@ -429,9 +430,9 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
     }
 
 
-    private fun deleteMassageByPos(position: Int) {
-        deleteMessage(messages[position])
-        adapter?.deleteMessage(position)
+    private fun deleteMessageByPos(position: Int) {
+        deleteMessageInDb(messages[position])
+        adapter?.deleteMessageInAdapter(position)
     }
 //    // 处理菜单点击事件
 //    override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -551,14 +552,29 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                 when (item.itemId) {
-                    R.id.action_delete -> deleteSelectedMessages()
-                    R.id.select_all -> selectAllMessages()
-                    R.id.action_mark -> bookmarkSelectedMessages(true)
-                    R.id.action_unmark -> bookmarkSelectedMessages(false)
+                    R.id.action_delete -> {
+                        deleteSelectedMessages{
+                            mode.finish()
+                        }
+                        return true
+                    }
+                    R.id.select_all -> {
+                        selectAllMessages()
+                        return true
+                    }
+                    R.id.action_mark -> {
+                        bookmarkSelectedMessages(true)
+                        mode.finish()
+                        return true
+                    }
+                    R.id.action_unmark -> {
+                        bookmarkSelectedMessages(false)
+                        mode.finish()
+                        return true
+                    }
+                    else -> return false
                 }
-                if (item.itemId != R.id.select_all)
-                    mode.finish()
-                return true
+
             }
 
             override fun onDestroyActionMode(mode: ActionMode) {
@@ -600,25 +616,42 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
         }
     }
 
+    private fun performDeletion(positions: List<Int>) {
+        // 1. 批量删除消息
+        positions.forEach { pos ->
+            deleteMessageByPos(pos)  // 原有删除方法
+        }
+
+        // 2. 通知Adapter更新
+        when (positions.size) {
+            1 -> adapter?.notifyItemRemoved(positions.first())
+            else -> {
+                // 批量删除时使用范围更新
+                val firstPosition = positions.minOrNull() ?: return
+                val lastPosition = positions.maxOrNull() ?: return
+                adapter?.notifyItemRangeRemoved(firstPosition, positions.size)
+            }
+        }
+
+        // 3. 清除选中状态
+        adapter?.clearSelection()
+    }
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    fun deleteSelectedMessages() {
-        // 1. 获取选中的位置（需逆序排序避免删除后位置错乱）
+    fun deleteSelectedMessages(onDeleteConfirmed: () -> Unit = {}) {
         val positions = adapter?.selectedStream()?.toList()?.sortedDescending() ?: return
 
-        // 2. 批量删除
-        positions.forEach { pos ->
-
-            deleteMassageByPos(pos) // 你的原有删除方法
-        }
-
-        // 3. 通知Adapter更新（根据情况选择通知方式）
-        when {
-            positions.size > 1 -> adapter?.notifyItemRangeRemoved(positions.last(), positions.size)
-            positions.size == 1 -> adapter?.notifyItemRemoved(positions[0])
-        }
-
-        // 4. 清除选中状态（如果需要）
-        adapter?.clearSelection()
+        // 添加确认对话框
+        AlertDialog.Builder(this).apply {
+            setTitle("确认删除")
+            setMessage("确定要删除选中的 ${positions.size} 条消息吗？")
+            setPositiveButton("删除") { _, _ ->
+                performDeletion(positions)  // 用户确认后执行删除
+                onDeleteConfirmed()  // 执行回调
+            }
+            setNegativeButton("取消", null)
+            create()
+        }.show()
     }
 
 
@@ -825,7 +858,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
         }
     }
 
-    private fun deleteMessage(message: Message) {
+    private fun deleteMessageInDb(message: Message) {
         runOnUiThread {
             executor.execute {
                 db?.messageDao()?.delete(message)
@@ -961,7 +994,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
             // 按降序删除
             unmarkedPositions.sortDescending()
             unmarkedPositions.forEach { position ->
-                adapter?.deleteMessage(position)
+                adapter?.deleteMessageAndNotify(position)
             }
 
             Toast.makeText(
