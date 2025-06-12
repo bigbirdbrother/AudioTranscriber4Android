@@ -1,4 +1,4 @@
-h1. Audio Transcriber 录音转文字应用(本Readme由 AI 生成，内容仅供参考，请仔细甄别。)
+# Audio Transcriber 录音转文字应用(本Readme由 AI 生成，内容仅供参考，请仔细甄别。)
 
 功能特性
 * 非实时性的录音转文字
