@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="audio-transcriber url："
+        android:text="请输入audio-transcriber的URL:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:paddingBottom="8dp"/>
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
-        android:text="示例：http://192.168.1.100:8484/recognize"
+        android:text="示例(路径/recognize必须带上)：http://192.168.1.100:8484/recognize"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="?android:attr/textColorSecondary"
         android:paddingTop="8dp"/>

@@ -266,6 +266,17 @@ class ChatAdapter(private val context: Context, val messages: MutableList<Messag
         updateCollectionsAfterDeletion(position)
     }
 
+    // 删除消息
+    fun deleteAllMessage() {
+        val originalSize = messages.size
+        if (originalSize > 0) {
+            messages.clear()
+            markedItems.clear()
+            selectedItems.clear()
+            this.notifyItemRangeRemoved(0, originalSize)
+        }
+    }
+
     // 切换标记状态
     fun toggleMark(position: Int) {
         if (markedItems.contains(position)) {

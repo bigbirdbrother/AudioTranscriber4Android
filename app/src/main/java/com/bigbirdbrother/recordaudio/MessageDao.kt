@@ -19,6 +19,11 @@ interface MessageDao {
     fun delete(message: Message)
 
     // 按ID删除
+    @Query("DELETE FROM messages")
+    fun deleteAll(): Int
+
+
+    // 按ID删除
     @Query("DELETE FROM messages WHERE id = :id")
     fun deleteById(id: Int): Int
 

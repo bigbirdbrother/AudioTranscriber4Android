@@ -26,6 +26,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -134,13 +135,21 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
 
         // 设置菜单项点击事件
         navigationView?.setNavigationItemSelectedListener { item ->
-            if (item.getItemId() === R.id.menu_settings) {
-                // 打开设置页面
-                startActivity(Intent(this, SettingsActivity::class.java))
-                drawerLayout?.closeDrawer(GravityCompat.END)
-                return@setNavigationItemSelectedListener true
+            when (item.itemId) {
+                R.id.menu_settings -> {
+                    // 打开设置页面
+                    startActivity(Intent(this, SettingsActivity::class.java))
+                    drawerLayout?.closeDrawer(GravityCompat.END)
+                    true
+                }
+                R.id.menu_clear_history -> {  // 新增处理逻辑
+                    // 清空历史数据的逻辑
+                    clearHistoryData()
+                    drawerLayout?.closeDrawer(GravityCompat.END)
+                    true
+                }
+                else -> false
             }
-            false
         }
 
 
@@ -249,6 +258,22 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
         setupPreferenceListener()
 //        btnRecord?.setOnClickListener(View.OnClickListener { v: View? -> toggleRecording() })
 
+    }
+
+    private fun clearHistoryData() {
+        // 示例：显示确认对话框
+        AlertDialog.Builder(this)
+            .setTitle("确认清空")
+            .setMessage("确定要清空所有历史数据吗？")
+            .setPositiveButton("确定") { _, _ ->
+                // 实际清空操作，例如：
+                // 1. 清除数据库记录
+                deleteAllMessage()
+                adapter?.deleteAllMessage()
+                Toast.makeText(this, "历史数据已清空", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("取消", null)
+            .show()
     }
 
 
@@ -373,13 +398,13 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
 
             R.id.menu_mark -> {
                 adapter?.markItem(longClickedPosition)
-                markMessage(messages,longClickedPosition, true)
+                markMessage(messages, longClickedPosition, true)
                 true
             }
 
             R.id.menu_unmark -> {
                 adapter?.unMarkItem(longClickedPosition)
-                markMessage(messages,longClickedPosition, false)
+                markMessage(messages, longClickedPosition, false)
                 true
             }
 
@@ -526,7 +551,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
                     R.id.action_mark -> bookmarkSelectedMessages(true)
                     R.id.action_unmark -> bookmarkSelectedMessages(false)
                 }
-                if (item.itemId!=R.id.select_all)
+                if (item.itemId != R.id.select_all)
                     mode.finish()
                 return true
             }
@@ -548,13 +573,13 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
     private fun bookmarkSelectedMessages(check: Boolean) {
         if (check) {
             adapter?.selectedStream()?.forEach(Consumer { pos ->
-                markMessage(messages,pos, true)
+                markMessage(messages, pos, true)
                 adapter?.markItem(pos)
             })
 
         } else {
             adapter?.selectedStream()?.forEach(Consumer { pos ->
-                markMessage(messages,pos, false)
+                markMessage(messages, pos, false)
                 adapter?.unMarkItem(pos)
             })
         }
@@ -693,7 +718,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
 
         // 设置占位View的高度
         val params: ViewGroup.LayoutParams = statusBarBackground!!.layoutParams
-        params.height = statusBarHeight/2
+        params.height = statusBarHeight / 2
         statusBarBackground!!.layoutParams = params
     }
 
@@ -794,19 +819,22 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
     }
 
     private fun deleteMessage(message: Message) {
-        executor.execute {
-//            if (message.ref_id!=-1) {
-//                val messageForDelete = db?.messageDao()?.getById(message.ref_id)
-//                messageForDelete?.let {
-//                    db?.messageDao()?.delete(messageForDelete);
-//                }
-//            }
-
-            db?.messageDao()?.delete(message)
+        runOnUiThread {
+            executor.execute {
+                db?.messageDao()?.delete(message)
+            }
         }
     }
 
-    private fun markMessage(messages: MutableList<Message>,pos :Int, mark: Boolean?) {
+    private fun deleteAllMessage() {
+        runOnUiThread {
+            executor.execute {
+                db?.messageDao()?.deleteAll()
+            }
+        }
+    }
+
+    private fun markMessage(messages: MutableList<Message>, pos: Int, mark: Boolean?) {
         messages[pos].isBookmarked = mark ?: false;
         updateMessage(messages[pos])
     }
