@@ -26,7 +26,8 @@ git clone https://github.com/bigbirdbrother/audio-transcriber.git
 2. 打开项目：
 使用Android Studio打开项目根目录
 3. 构建应用：
-Debug版本：./gradlew assembleDebug \n
+Debug版本：./gradlew assembleDebug
+
 Release版本：./gradlew assembleRelease
 
 项目结构
