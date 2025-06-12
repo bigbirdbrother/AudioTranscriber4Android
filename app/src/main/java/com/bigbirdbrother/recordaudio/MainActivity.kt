@@ -781,7 +781,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
         // 发送到服务器
         if (audioFile != null) {
             sendToServer(audioFile, recordingMsg.id)
-            audioFile.delete()
+
         }
     }
 
@@ -801,10 +801,12 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
                     responseMsg.timestamp = System.currentTimeMillis()
                     responseMsg.ref_id = ref_id;
                     addMessage(responseMsg)
+                    audioFile.delete()
                 }
 
                 override fun onError(error: String?) {
                     addSystemMessage("转换失败: $error")
+                    audioFile.delete()
                 }
 
 
