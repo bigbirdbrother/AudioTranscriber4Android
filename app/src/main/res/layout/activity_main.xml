@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="开始录音"
             android:textSize="18sp"
-            android:padding="18dp"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -62,12 +62,36 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- 右侧滑出菜单 -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
+    <!-- 修改后的右侧滑出菜单 -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        app:menu="@menu/navigation_menu"
-        app:headerLayout="@layout/nav_header"/>
+        android:layout_gravity="end">
+
+        <!-- 状态栏占位 (与主界面保持一致) -->
+        <View
+            android:id="@+id/menu_status_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- 包裹NavigationView的容器 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/menu_status_bar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:menu="@menu/navigation_menu"
+                app:headerLayout="@layout/nav_header"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

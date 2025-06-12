@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
         statusBarBackground = findViewById(R.id.status_bar_background);
 
         // 设置状态栏占位高度
-        setStatusBarHeight();
+//        setStatusBarHeight();
 
         // 设置工具栏
 //        setSupportActionBar(toolbar)
@@ -693,7 +693,7 @@ class MainActivity : AppCompatActivity(), ChatAdapter.OnMultiSelectModeListener 
 
         // 设置占位View的高度
         val params: ViewGroup.LayoutParams = statusBarBackground!!.layoutParams
-        params.height = statusBarHeight
+        params.height = statusBarHeight/2
         statusBarBackground!!.layoutParams = params
     }
 
