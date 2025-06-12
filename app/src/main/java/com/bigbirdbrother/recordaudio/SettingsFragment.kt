@@ -33,10 +33,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setTitle("配置语音识别服务地址")
             .setView(dialogView)
             .setPositiveButton("保存") { _, _ ->
-//                val newUrl = etUrl.text.toString().trim()
-//                sharedPrefs?.edit { putString("server_url", newUrl) }
-//                updateSummary(newUrl)
-                updateSummary()
+                val newUrl = etUrl.text.toString().trim()
+                sharedPrefs?.edit { putString("server_url", newUrl) }
+                updateSummary(newUrl)
             }
             .setNegativeButton("取消", null)
             .show()
