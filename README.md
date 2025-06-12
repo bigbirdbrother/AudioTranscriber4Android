@@ -1,5 +1,6 @@
 # Audio Transcriber 音频转文字应用
 > 本 Readme 由 AI 生成，内容仅供参考，请仔细甄别。
+<img src="https://github.com/user-attachments/assets/472dddcf-20f7-42d7-af29-b4b3e5e0c5b0" alt="介绍" width="400"/>
 
 ## 功能特性
 
